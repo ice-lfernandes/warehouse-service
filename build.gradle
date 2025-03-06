@@ -33,6 +33,8 @@ ext {
 		implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:${springCloudAwsVersion}"))
 		implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
 
+		implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.3'
+
 		runtimeOnly 'com.h2database:h2'
 
 		compileOnly 'org.projectlombok:lombok'

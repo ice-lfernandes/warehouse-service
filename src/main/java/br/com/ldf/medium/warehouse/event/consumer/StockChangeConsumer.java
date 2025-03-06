@@ -21,12 +21,9 @@ public class StockChangeConsumer {
     ObjectMapper objectMapper;
 
     @SqsListener(
-            value = "${stock.change.event.queue}",
-            factory = "assessmentSqsListenerContainerFactory"
+            value = "${aws.sqs.queue.stock-change-event-queue}"
     )
-    public void listenStockChange(String payload) throws JsonProcessingException {
-        log.info("stage=init-listen-stock-change, payload={}", payload);
-        var obj = objectMapper.readValue(payload, StockChangeEvent.class);
-        log.info("stage=finish-listen-stock-change, stockChangeEvent={}", obj);
+    public void listenStockChange(StockChangeEvent stockChangeEvent) {
+        log.info("stage=finish-listen-stock-change, stockChangeEvent={}", stockChangeEvent);
     }
 }
