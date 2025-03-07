@@ -27,11 +27,11 @@ public class StockManagerService {
                 );
     }
 
-    public void removeStock(Long productId, Integer quantity) {
+    public void subtractionStock(Long productId, Integer quantity) {
         stockRepository.findByProductId(productId)
                 .ifPresentOrElse(
                         stock -> {
-                            stock.removeQuantity(quantity);
+                            stock.subtractionQuantity(quantity);
                             stockRepository.save(stock);
                         },
                         () -> {
