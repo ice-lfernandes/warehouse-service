@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "product")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StockEntity {
     @Id
@@ -26,10 +25,19 @@ public class StockEntity {
         this.quantity += quantity;
     }
 
-    public void removeQuantity(int quantity) {
+    public void subtractionQuantity(int quantity) {
         if (quantity > this.quantity) {
             throw new DomainRuleException("Insufficient quantity");
         }
         this.quantity -= quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "StockEntity{" +
+            "id=" + id +
+            ", productId=" + product.getId() +
+            ", quantity=" + quantity +
+            '}';
     }
 }

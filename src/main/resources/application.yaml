@@ -17,4 +17,5 @@ spring:
 aws:
   sqs:
     queue:
-      stock-change-event-queue: https://sqs.us-east-1.amazonaws.com/851725329993/stock-change-queue
+      stock-addition-queue: https://sqs.us-east-1.amazonaws.com/851725329993/stock-addition-queue
+      stock-subtraction-queue: https://sqs.us-east-1.amazonaws.com/851725329993/stock-subtraction-queue

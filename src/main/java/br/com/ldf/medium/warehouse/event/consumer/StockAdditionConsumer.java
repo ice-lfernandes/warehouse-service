@@ -1,5 +1,6 @@
 package br.com.ldf.medium.warehouse.event.consumer;
 
+import br.com.ldf.medium.warehouse.domain.service.StockManagerService;
 import br.com.ldf.medium.warehouse.event.schema.StockChangeEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,15 +16,16 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class StockChangeConsumer {
+public class StockAdditionConsumer {
 
-    SqsAsyncClient sqsAsyncClient;
-    ObjectMapper objectMapper;
+    StockManagerService stockManagerService;
 
     @SqsListener(
-            value = "${aws.sqs.queue.stock-change-event-queue}"
+        value = "${aws.sqs.queue.stock-addition-queue}"
     )
-    public void listenStockChange(StockChangeEvent stockChangeEvent) {
-        log.info("stage=finish-listen-stock-change, stockChangeEvent={}", stockChangeEvent);
+    public void listenAdditionStock(StockChangeEvent stockChangeEvent) {
+        log.info("stage=init-listen-addition-stock, stockChangeEvent={}", stockChangeEvent);
+        stockManagerService.addStock(stockChangeEvent.productId(), stockChangeEvent.quantity());
+        log.info("stage=finish-listen-addition-stock");
     }
 }
