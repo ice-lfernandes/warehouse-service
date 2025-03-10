@@ -1,5 +1,6 @@
 package br.com.ldf.medium.warehouse.event.consumer;
 
+import br.com.ldf.medium.warehouse.domain.exception.DomainRuleException;
 import br.com.ldf.medium.warehouse.domain.service.StockManagerService;
 import br.com.ldf.medium.warehouse.event.schema.StockChangeEvent;
 import io.awspring.cloud.sqs.annotation.SqsListener;
@@ -22,7 +23,11 @@ public class StockSubtractionConsumer {
     )
     public void listenSubtractionStock(StockChangeEvent stockChangeEvent) {
         log.info("stage=init-listen-subtraction-stock, stockChangeEvent={}", stockChangeEvent);
-        stockManagerService.subtractionStock(stockChangeEvent.productId(), stockChangeEvent.quantity());
+        try {
+            stockManagerService.subtractionStock(stockChangeEvent.productId(), stockChangeEvent.quantity());
+        } catch (DomainRuleException exception) {
+            log.error("stage=error-listen-subtraction-stock, stockChangeEvent={}, exception={}", stockChangeEvent, exception.getMessage());
+        }
         log.info("stage=finish-listen-subtraction-stock");
     }
 
